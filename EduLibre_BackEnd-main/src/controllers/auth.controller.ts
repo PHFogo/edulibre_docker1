@@ -4,6 +4,7 @@ import asyncHandler from '../utils/async-handler';
 import UserService from '../services/user.service';
 import TokenService from '../services/token.service';
 import RbacService from '../services/rbac.service';
+import PasswordResetService from '../services/password-reset.service';
 
 class AuthController {
   public static health = (_req: Request, res: Response) => {
@@ -44,6 +45,18 @@ class AuthController {
       ...user,
       ...rbac,
     });
+  });
+
+  public static requestPasswordReset = asyncHandler(async (req, res) => {
+    await PasswordResetService.requestCode(req.body.email);
+    res.status(200).json({
+      message: 'Se houver uma conta com este e-mail, enviaremos um código para redefinir a senha.',
+    });
+  });
+
+  public static resetPassword = asyncHandler(async (req, res) => {
+    await PasswordResetService.resetPassword(req.body);
+    res.status(200).json({ message: 'Senha redefinida com sucesso.' });
   });
 }
 

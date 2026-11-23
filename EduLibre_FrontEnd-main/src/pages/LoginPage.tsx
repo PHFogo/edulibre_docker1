@@ -31,6 +31,7 @@ function LoginPage() {
         <h1>Entre para agendar ou vender aulas</h1>
         <FormField label="E-mail" name="email" type="email" value={email} onChange={setEmail} />
         <FormField label="Senha" name="password" type="password" value={password} onChange={setPassword} />
+        <p className="muted"><Link to="/recuperar-senha">Esqueci minha senha</Link></p>
         {error ? <Feedback message={error} /> : null}
         <button className="primary-button" type="submit">Entrar</button>
         <p className="muted">Ainda não tem conta? <Link to="/cadastro">Crie a sua gratuitamente</Link>.</p>
