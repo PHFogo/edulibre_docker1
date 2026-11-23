@@ -14,3 +14,23 @@ export async function fetchMe() {
 export async function becomeProfessor() {
   await api.post('/usuarios/me/tornar-professor');
 }
+
+export async function requestPasswordReset(email: string) {
+  const response = await api.post<{ message: string }>(
+    '/auth/password-reset/request',
+    { email },
+  );
+  return response.data;
+}
+
+export async function confirmPasswordReset(payload: {
+  email: string;
+  code: string;
+  password: string;
+}) {
+  const response = await api.post<{ message: string }>(
+    '/auth/password-reset/confirm',
+    payload,
+  );
+  return response.data;
+}

@@ -5,6 +5,10 @@ type WelcomeEmailInput = {
   email: string;
 };
 
+type PasswordResetEmailInput = WelcomeEmailInput & {
+  code: string;
+};
+
 export default class EmailService {
   public static async sendWelcomeEmail({ name, email }: WelcomeEmailInput) {
     const host = process.env.SMTP_HOST;
@@ -37,6 +41,44 @@ export default class EmailService {
         <p>Seu cadastro foi realizado com sucesso.</p>
         <p>Seja bem-vinda ao <strong>EduLibre</strong>!</p>
         <p>Agora você já pode encontrar, agendar e publicar aulas.</p>
+      `,
+    });
+  }
+
+  public static async sendPasswordResetEmail({
+    name,
+    email,
+    code,
+  }: PasswordResetEmailInput) {
+    const host = process.env.SMTP_HOST;
+    const port = Number(process.env.SMTP_PORT);
+    const user = process.env.SMTP_USER;
+    const pass = process.env.SMTP_PASS;
+    const from = process.env.MAIL_FROM;
+
+    if (!host || !port || !user || !pass || !from) {
+      throw new Error('As credenciais de e-mail não foram configuradas.');
+    }
+
+    const transporter = nodemailer.createTransport({
+      host,
+      port,
+      secure: port === 465,
+      auth: { user, pass },
+    });
+
+    await transporter.sendMail({
+      from,
+      to: email,
+      subject: 'Código para redefinir sua senha — EduLivre',
+      text: `Olá, ${name}! Use o código ${code} para redefinir sua senha. Ele expira em 15 minutos. Se você não solicitou esta alteração, ignore este e-mail.`,
+      html: `
+        <h1>Redefinição de senha</h1>
+        <p>Olá, ${name}!</p>
+        <p>Use este código para redefinir sua senha:</p>
+        <p style="font-size: 28px; font-weight: 700; letter-spacing: 6px;">${code}</p>
+        <p>Ele expira em <strong>15 minutos</strong>.</p>
+        <p>Se você não solicitou esta alteração, pode ignorar este e-mail.</p>
       `,
     });
   }

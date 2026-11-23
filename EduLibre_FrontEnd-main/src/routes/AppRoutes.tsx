@@ -16,6 +16,7 @@ import ProfilePage from '../pages/ProfilePage';
 import ReceivedBookingsPage from '../pages/ReceivedBookingsPage';
 import SignupPage from '../pages/SignupPage';
 import UserFormPage from '../pages/UserFormPage';
+import PasswordResetPage from '../pages/PasswordResetPage';
 
 export default function AppRoutes() {
   return (
@@ -23,6 +24,7 @@ export default function AppRoutes() {
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/cadastro" element={<SignupPage />} />
+      <Route path="/recuperar-senha" element={<PasswordResetPage />} />
       <Route path="/professores" element={<MarketplacePage />} />
       <Route path="/aula/:id" element={<LessonDetailPage />} />
       <Route element={<ProtectedRoute />}>
