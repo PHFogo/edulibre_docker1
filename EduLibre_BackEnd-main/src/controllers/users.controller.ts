@@ -5,6 +5,7 @@ import UserService from '../services/user.service';
 import asyncHandler from '../utils/async-handler';
 import HttpError from '../utils/http-error';
 import RbacService from '../services/rbac.service';
+import MediaOptimizationService from '../services/media-optimization.service';
 import EmailService from '../services/email.service';
 
 class UsersController {
@@ -48,7 +49,7 @@ class UsersController {
     }
 
     const avatarUrl = req.file
-      ? `/uploads/${req.file.filename}`
+      ? await MediaOptimizationService.optimizeUploadedImage(req.file)
       : req.body.avatarUrl;
 
     const user = await UserService.update(targetUserId, {

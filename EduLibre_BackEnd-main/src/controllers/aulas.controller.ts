@@ -5,6 +5,7 @@ import AulaService from '../services/aula.service';
 import NotificacaoService from '../services/notificacao.service';
 import asyncHandler from '../utils/async-handler';
 import HttpError from '../utils/http-error';
+import MediaOptimizationService from '../services/media-optimization.service';
 
 class AulasController {
   public static featured = asyncHandler(
@@ -69,7 +70,7 @@ class AulasController {
 
   public static create = asyncHandler(async (req: Request, res: Response) => {
     const imageUrl = req.file
-      ? `/uploads/${req.file.filename}`
+      ? await MediaOptimizationService.optimizeUploadedImage(req.file)
       : req.body.imageUrl;
 
     const aula = await AulaService.create({
@@ -89,7 +90,7 @@ class AulasController {
     }
 
     const imageUrl = req.file
-      ? `/uploads/${req.file.filename}`
+      ? await MediaOptimizationService.optimizeUploadedImage(req.file)
       : (req.body.imageUrl ?? aulaAtual.imageUrl);
 
     const aula = await AulaService.update(Number(req.params.id), {
