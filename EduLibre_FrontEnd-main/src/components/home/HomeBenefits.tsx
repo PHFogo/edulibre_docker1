@@ -1,25 +1,34 @@
+const benefits = [
+  [
+    '01',
+    'Encontre sua inspiração',
+    'Conheça os professores, suas experiências e as aulas que oferecem.',
+  ],
+  [
+    '02',
+    'Reserve seu momento',
+    'Escolha uma aula e combine o melhor horário para aprender.',
+  ],
+  [
+    '03',
+    'Compartilhe descobertas',
+    'Aprenda, avalie sua experiência e continue explorando.',
+  ],
+];
 export default function HomeBenefits() {
   return (
-    <section className="benefits">
-      <div className="benefit_card benefit_card--tecnologia">
-        <h3>Professores verificados</h3>
-        <p>
-          Perfis reais com imagem, biografia e aulas publicadas na plataforma.
-        </p>
-      </div>
-
-      <div className="benefit_card benefit_card--idiomas">
-        <h3>Agendamento fácil</h3>
-        <p>
-          Marque suas aulas em poucos segundos e acompanhe o status do
-          pagamento.
-        </p>
-      </div>
-
-      <div className="benefit_card benefit_card--humanidades">
-        <h3>Avaliações reais</h3>
-        <p>Veja a nota média de cada aula antes de decidir com quem estudar.</p>
-      </div>
+    <section
+      className="benefits"
+      id="beneficios"
+      aria-label="Aprender na EduLivre"
+    >
+      {benefits.map(([number, title, description]) => (
+        <article className="benefit_card" key={number}>
+          <span className="index-number">{number}</span>
+          <h3>{title}</h3>
+          <p>{description}</p>
+        </article>
+      ))}
     </section>
   );
 }

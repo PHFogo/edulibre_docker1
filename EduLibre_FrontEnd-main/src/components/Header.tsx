@@ -13,13 +13,7 @@ function Header() {
 
   useEffect(() => setMenuOpen(false), [location.pathname, token]);
 
-  const isProfessor =
-    user?.isSuperAdmin ||
-    user?.roles?.includes('professor');
-
-  const isAdmin =
-    user?.isSuperAdmin ||
-    user?.roles?.includes('admin');
+  const isProfessor = user?.isSuperAdmin || user?.roles?.includes('professor');
 
   useEffect(() => {
     const header = document.querySelector('.header');
@@ -38,15 +32,24 @@ function Header() {
   }, []);
 
   return (
-    <header className="header" onKeyDown={(event) => {
-      if (event.key === 'Escape' && menuOpen) {
-        setMenuOpen(false);
-        menuButton.current?.focus();
-      }
-    }}>
+    <header
+      className="header"
+      onKeyDown={(event) => {
+        if (event.key === 'Escape' && menuOpen) {
+          setMenuOpen(false);
+          menuButton.current?.focus();
+        }
+      }}
+    >
       <div className="header_container">
         <Link to="/" className="logo-link">
-          <img src={logo} alt="EduLivre" className="logo_img" />
+          <span className="brand-symbol">
+            <img
+              src={logo}
+              alt="Logo EduLivre"
+              className="logo_img"
+            />
+          </span>
           <strong>EduLivre</strong>
         </Link>
 
@@ -60,12 +63,15 @@ function Header() {
         >
           {menuOpen ? 'Fechar menu' : 'Menu'}
         </button>
-        <nav id="main-navigation" aria-label="Navegação principal"
+        <nav
+          id="main-navigation"
+          aria-label="Navegação principal"
           className={`menu_header${menuOpen ? ' menu_header--open' : ''}`}
           onClick={(event) => {
             if ((event.target as HTMLElement).closest('a')) setMenuOpen(false);
-          }}>
-          <Link to="/">Home</Link>
+          }}
+        >
+          <Link to="/">Início</Link>
           <Link to="/professores">Professores</Link>
 
           {token && <Link to="/agendamentos">Agendamentos</Link>}
@@ -74,27 +80,21 @@ function Header() {
             <>
               <Link to="/minhas-aulas">Minhas aulas</Link>
               <Link to="/criar-aula">Criar aula</Link>
-              <Link to="/agendamentos-recebidos">
-                Agendamentos recebidos
-              </Link>
+              <Link to="/agendamentos-recebidos">Agendamentos recebidos</Link>
             </>
-          )}
-
-                  {token && isAdmin && (
-            <Link to="/admin">Painel admin</Link>
           )}
 
           {token && <NotificationBell />}
 
-        {token ? (
-  <Link className="header_account" to="/conta">
-    Minha conta
-  </Link>
-) : (
-  <Link className="header_login" to="/login">
-    Entrar
-  </Link>
-)}
+          {token ? (
+            <Link className="header_account" to="/conta">
+              Minha conta
+            </Link>
+          ) : (
+            <Link className="header_login" to="/login">
+              Entrar
+            </Link>
+          )}
           {token && (
             <button className="header_logout" onClick={logout}>
               Sair

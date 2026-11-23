@@ -1,18 +1,21 @@
 import { Link } from 'react-router-dom';
+import logo from '../../assets/logo.png';
 
 export default function HomeAbout() {
   return (
-    <section className="about">
+    <section className="about" id="sobre">
       <div className="about_container">
-        <div className="about_image" aria-hidden="true" />
+        <div className="about_image about_logo">
+          <img src={logo} alt="Logo EduLivre" />
+        </div>
 
         <div className="about_text">
           <span className="about_eyebrow">Conheça a EduLivre</span>
 
           <h2>
-            Seu próximo passo
+            Conhecimento que conecta.
             <br />
-            <span>começa aqui.</span>
+            <span>Descobertas que ficam.</span>
           </h2>
 
           <p>

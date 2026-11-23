@@ -46,15 +46,16 @@
 }
 
 .logo_img {
-  height: 58px;
+  width: 200px;;
+  height: 75px;
   object-fit: contain;
 }
 
 .logo-link strong {
   color: #ffffff;
   font-family: "Playfair Display", serif;
-  font-size: 25px;
-  letter-spacing: 0.2px;
+  font-size: 35px;
+  letter-spacing: 0.3px;
 }
 
 .menu_header {
@@ -66,7 +67,7 @@
 .menu_header a {
   position: relative;
   color: rgba(255, 255, 255, 0.88);
-  font-size: 15px;
+  font-size: 35px;
   font-weight: 500;
   text-decoration: none;
   transition: color 0.25s ease;
@@ -233,7 +234,7 @@
 .menu_header { gap: 16px; }
 .notification-menu { color: #5a3e2b; }
 
-@media (max-width: 1400px) {
+@media (max-width: 900px) {
 
   .header {
     padding: 0 12px;
@@ -269,4 +270,9 @@
   .logo_img { height: 40px; }
   .logo-link { gap: 4px; }
   .logo-link strong { font-size: 20px; }
+}
+
+@media (min-width: 901px) {
+  .header_container { gap: 16px; }
+  .menu_header { flex-wrap: wrap; justify-content: flex-end; gap: 10px 16px; min-width: 0; }
 }

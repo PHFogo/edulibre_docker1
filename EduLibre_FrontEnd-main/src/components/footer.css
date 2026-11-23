@@ -1,15 +1,15 @@
 .footer {
   position: relative;
   margin-top: 0;
-  color: #e8f2ff;
+  color: #f2eadb;
 
   background:
     radial-gradient(
       ellipse at 15% 0%,
-      rgba(50, 115, 200, 0.16),
+      rgba(198, 178, 138, 0.16),
       transparent 60%
     ),
-    #091323;
+    #0b0c09;
 }
 
 /* Linha luminosa no topo */
@@ -24,12 +24,12 @@
   background: linear-gradient(
     90deg,
     transparent,
-    #76d9ff,
-    #487aff,
+    #d7b766,
+    #a88d4d,
     transparent
   );
 
-  box-shadow: 0 0 14px rgba(90, 180, 255, 0.4);
+  box-shadow: 0 0 14px rgba(215, 183, 102, 0.38);
 }
 
 .footer_container {
@@ -53,13 +53,13 @@
   font-size: 32px;
   font-weight: 700;
   letter-spacing: -1px;
-  color: #91e3ff;
-  text-shadow: 0 0 22px rgba(90, 190, 255, 0.2);
+  color: #d7b766;
+  text-shadow: 0 0 22px rgba(215, 183, 102, 0.16);
 }
 
 .footer_brand p {
   margin: 18px 0 0;
-  color: #b6c6dc;
+  color: #c7c0b1;
   font-size: 15px;
   line-height: 1.8;
 }
@@ -73,7 +73,7 @@
 
 .footer_links h4 {
   margin: 0 0 8px;
-  color: #edf7ff;
+  color: #f2eadb;
   font-family: inherit;
   font-size: 16px;
   font-weight: 600;
@@ -82,7 +82,7 @@
 .footer_links a {
   position: relative;
   padding: 3px 0;
-  color: #b6c6dc;
+  color: #c7c0b1;
   font-size: 15px;
   line-height: 1.5;
   text-decoration: none;
@@ -99,8 +99,8 @@
   width: 100%;
   height: 1px;
 
-  background: #80dfff;
-  box-shadow: 0 0 8px rgba(100, 210, 255, 0.5);
+  background: #d7b766;
+  box-shadow: 0 0 8px rgba(215, 183, 102, 0.45);
 
   transform: scaleX(0);
   transform-origin: left;
@@ -108,7 +108,7 @@
 }
 
 .footer_links a:focus-visible {
-  outline: 2px solid #80dfff;
+  outline: 2px solid #d7b766;
   outline-offset: 5px;
   border-radius: 2px;
 }
@@ -116,7 +116,7 @@
 .footer_bottom {
   padding: 24px;
   border-top: 1px solid rgba(150, 195, 255, 0.12);
-  color: #9dafc7;
+  color: #aaa18f;
   font-size: 13px;
   line-height: 1.6;
   text-align: center;
@@ -124,7 +124,7 @@
 
 @media (hover: hover) {
   .footer_links a:hover {
-    color: #91e3ff;
+    color: #d7b766;
   }
 
   .footer_links a:hover::after {

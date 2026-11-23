@@ -11,6 +11,11 @@ export default function FeaturedLessons({ lessons, variant }: Props) {
   return (
     <section className="teachers">
       <h2>{showTeachers ? 'Professores em destaque' : 'Aulas em destaque'}</h2>
+      {!lessons.length && (
+        <p className="muted">
+          Novas descobertas começam aqui. Explore o catálogo de aulas.
+        </p>
+      )}
       <div className="teachers_grid">
         {lessons.map((lesson) => (
           <div className="featured_card" key={lesson.id}>
@@ -27,7 +32,14 @@ export default function FeaturedLessons({ lessons, variant }: Props) {
                 ? (lesson.professor?.name ?? 'Professor')
                 : lesson.materia}
             </h4>
-            <span>{showTeachers ? lesson.materia : `R$ ${lesson.valor}`}</span>
+            <span>
+              {showTeachers
+                ? lesson.materia
+                : new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                  }).format(lesson.valor)}
+            </span>
             {showTeachers ? (
               <LessonRating lesson={lesson} />
             ) : (
