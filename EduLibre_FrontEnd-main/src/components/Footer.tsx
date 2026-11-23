@@ -8,16 +8,17 @@ function Footer() {
         <div className="footer_brand">
           <h2>EduLivre</h2>
           <p>
-            Conectando alunos e professores para transformar aprendizado em oportunidades reais.
+            Conectando alunos e professores para transformar aprendizado em
+            oportunidades reais.
           </p>
         </div>
 
         <div className="footer_links">
           <h4>Navegação</h4>
-          <Link to="/">Home</Link>
+          <Link to="/">Início</Link>
           <Link to="/professores">Professores</Link>
           <Link to="/agendamentos">Agendamentos</Link>
-          <Link to="/login">Login</Link>
+          <Link to="/login">Entrar</Link>
         </div>
 
         <div className="footer_links">

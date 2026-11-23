@@ -1,48 +1,29 @@
 import { Link } from 'react-router-dom';
-import professorAluna from '../../assets/AlunaProfessor.png';
 
 export default function HomeHero() {
   return (
-    <section className="hero">
-      <div className="hero_container">
-        <div className="hero_left">
-          <div className="hero_eyebrow">Aprender hoje. Construir amanhã.</div>
-
-          <h1>
-            Aprenda com quem
-            <br />
-            <span>entende você.</span>
-          </h1>
-
-          <p>
-            Encontre professores qualificados e descubra novas possibilidades.
-            Na EduLivre, você aprende no seu ritmo e segue em direção aos seus
-            objetivos.
-          </p>
-
-          <div className="hero_actions">
-            <Link to="/professores" className="hero_cta">
-              Explorar aulas
-              <span aria-hidden="true">→</span>
-            </Link>
-
-            <a href="#beneficios" className="hero_secondary">
-              Conheça a EduLivre
-            </a>
-          </div>
-
-          <div className="hero_highlights">
-            <span>Professores verificados</span>
-            <span>Aprendizado no seu ritmo</span>
-            <span>Avaliações reais</span>
-          </div>
+    <section className="museum-hero">
+      <div className="museum-hero-copy">
+        <p className="eyebrow">EduLivre / Um encontro com o conhecimento</p>
+        <h1>
+          Aprenda com quem
+          <br />
+          <em>amplia seu mundo.</em>
+        </h1>
+        <p className="museum-intro">
+          Toda descoberta começa com uma boa pergunta. Encontre professores,
+          explore novos saberes e dê espaço à sua curiosidade.
+        </p>
+        <div className="hero-actions">
+          <Link to="/professores" className="primary-button">
+            Explorar aulas <span aria-hidden="true">↗</span>
+          </Link>
+          <a href="#sobre" className="text-link">
+            Conheça a EduLivre
+          </a>
         </div>
-
-        <div className="hero_visual">
-          <img
-            src={professorAluna}
-            alt="Professor auxiliando aluna durante o estudo"
-          />
+        <div className="museum-hero-note">
+          <span>01 —</span> Aprender é uma experiência para a vida.
         </div>
       </div>
     </section>
