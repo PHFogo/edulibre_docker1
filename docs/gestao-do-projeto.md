@@ -6,16 +6,33 @@ O projeto usa **Kanban no Jira** com o fluxo: Backlog → A fazer → Em andamen
 
 ## Cynefin e abordagem de trabalho
 
+A classificação é feita conforme o tipo de problema, não apenas pela quantidade de componentes do sistema:
+
 | Domínio | Exemplo no EduLivre | Abordagem |
 | --- | --- | --- |
-| Claro | Ajuste de texto, cor, rota ou validação conhecida | procedimento padronizado e revisão |
-| Complicado | Docker, RBAC, Swagger e integração SMTP | analisar, consultar boas práticas, implementar e testar |
-| Complexo | UX editorial, notificações em tempo real e cache | experimento pequeno, observar resultado e adaptar |
-| Caótico | API indisponível durante demonstração | conter, restaurar serviço, comunicar e registrar incidente |
+| Claro | Ajuste de texto, cor, rota ou validação conhecida | Seguir procedimento padronizado e revisar |
+| Complicado | Configuração de Docker/Nginx, RBAC e integrações com solução conhecida | Analisar, consultar boas práticas, implementar e testar |
+| Complexo | Experiência de uso e notificações em tempo real, que exigem observar o comportamento integrado | Fazer experimentos pequenos, observar os resultados e adaptar |
+| Caótico | Indisponibilidade da API durante uma demonstração | Conter o impacto, restaurar o serviço, comunicar e registrar o incidente |
+
+Assim, o EduLivre combina atividades dos domínios Complicado e Complexo; a existência de vários serviços, por si só, não torna todo o projeto Complexo. A abordagem de trabalho é **híbrida**: arquitetura, critérios de entrega e aspectos previsíveis são planejados, enquanto a implementação evolui incrementalmente em itens priorizados no Jira, com Pull Requests, revisão, testes e ajustes contínuos. A integração contínua é automatizada; a implantação é feita manualmente com Docker Compose.
 
 ## Ciclo de vida
 
-O núcleo segue uma abordagem **ágil e incremental**: itens pequenos são priorizados no Kanban, implementados em branch e validados em Pull Request. Aspectos previsíveis — Docker, documentação, pipeline e critérios de entrega — são conduzidos de forma planejada, com checklist de release e rollback.
+O trabalho combina planejamento de entregas com execução ágil e incremental. As fases abaixo organizam o ciclo sem impedir revisões e ajustes ao longo do desenvolvimento:
+
+- **Iniciação:** alinhamento do problema, dos objetivos e dos requisitos do EduLivre.
+- **Planejamento:** organização do backlog no Jira e definição da arquitetura, registrada em diagramas C4, decisões arquiteturais (ADRs), modelagem de domínio e contrato OpenAPI.
+- **Execução:** implementação incremental em branches e Pull Requests, incluindo backend, microsserviços, Redis, infraestrutura Docker/Nginx e frontend.
+- **Monitoramento e controle:** acompanhamento dos itens no Jira, execução do CI e dos testes, revisão das entregas e correção de falhas.
+- **Encerramento:** validação dos critérios de aceite, reunião das evidências de PRs e testes e aplicação do checklist de release/rollback.
+
+## Papéis e responsabilidades
+
+Responsabilidades conforme a divisão de trabalho da equipe; a integração de eventos com Redis Pub/Sub é compartilhada:
+
+- **Pablo Henrique Fogo:** arquitetura de software, infraestrutura Docker/Nginx, microsserviço de mídia, integração de eventos Redis Pub/Sub, CI e desenvolvimento full-stack.
+- **Thaila Mayna Da Silva:** organização do projeto no Jira, microsserviço de pagamentos (NestJS), cache Redis, notificações/checkout, QA e colaboração na integração Redis Pub/Sub.
 
 ## Product Backlog priorizado
 
