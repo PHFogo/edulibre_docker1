@@ -12,6 +12,9 @@ export type AnnouncementResult = {
   title: string;
   message: string;
   deliveredAt: string;
+  recipientCount: number;
+  emailedCount: number;
+  emailFailureCount: number;
 };
 
 export async function fetchAdminDashboard() {

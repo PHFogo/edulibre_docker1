@@ -3,9 +3,11 @@ import Feedback from '../components/Feedback';
 import StatsGrid from '../components/StatsGrid';
 import BookingSummaryCard from '../components/dashboard/BookingSummaryCard';
 import OwnedLessonCard from '../components/dashboard/OwnedLessonCard';
+import { useAuth } from '../contexts/AuthContext';
 import useAccountDashboard from '../hooks/useAccountDashboard';
 
 function DashboardPage() {
+  const { user: authenticatedUser } = useAuth();
   const {
     user,
     lessons,
@@ -17,6 +19,7 @@ function DashboardPage() {
     handleBecomeProfessor,
     handleDeleteLesson,
   } = useAccountDashboard();
+  const isAdmin = authenticatedUser?.isSuperAdmin || authenticatedUser?.roles?.includes('admin');
 
   return (
     <main className="marketing-shell">
@@ -62,6 +65,11 @@ function DashboardPage() {
           <Link className="secondary-button" to="/perfil">
             Ver perfil
           </Link>
+          {isAdmin ? (
+            <Link className="secondary-button" to="/admin">
+              Abrir painel administrativo
+            </Link>
+          ) : null}
         </div>
       </section>
 

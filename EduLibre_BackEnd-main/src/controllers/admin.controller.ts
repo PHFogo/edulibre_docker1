@@ -21,7 +21,7 @@ class AdminController {
         throw new HttpError(400, 'Informe o comunicado a publicar.');
       }
 
-      const announcement = AnnouncementService.publish(templateKey);
+      const announcement = await AnnouncementService.publish(templateKey);
       res.status(201).json(announcement);
     },
   );

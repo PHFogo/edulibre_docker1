@@ -17,8 +17,9 @@ function LoginPage() {
     if (!validateEmail(email)) return setError('Informe um e-mail válido.');
     if (!validatePassword(password)) return setError('A senha deve seguir a política de segurança.');
     try {
-      await login(email, password);
-      navigate('/conta');
+      const loggedUser = await login(email, password);
+      const isAdmin = loggedUser.isSuperAdmin || loggedUser.roles?.includes('admin');
+      navigate(isAdmin ? '/admin' : '/conta', { replace: true });
     } catch (submitError) {
       setError(getErrorMessage(submitError));
     }

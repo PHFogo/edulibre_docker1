@@ -9,6 +9,11 @@ type PasswordResetEmailInput = WelcomeEmailInput & {
   code: string;
 };
 
+type AnnouncementEmailInput = WelcomeEmailInput & {
+  title: string;
+  message: string;
+};
+
 export default class EmailService {
   public static async sendWelcomeEmail({ name, email }: WelcomeEmailInput) {
     const host = process.env.SMTP_HOST;
@@ -79,6 +84,43 @@ export default class EmailService {
         <p style="font-size: 28px; font-weight: 700; letter-spacing: 6px;">${code}</p>
         <p>Ele expira em <strong>15 minutos</strong>.</p>
         <p>Se você não solicitou esta alteração, pode ignorar este e-mail.</p>
+      `,
+    });
+  }
+
+  public static async sendAnnouncementEmail({
+    name,
+    email,
+    title,
+    message,
+  }: AnnouncementEmailInput) {
+    const host = process.env.SMTP_HOST;
+    const port = Number(process.env.SMTP_PORT);
+    const user = process.env.SMTP_USER;
+    const pass = process.env.SMTP_PASS;
+    const from = process.env.MAIL_FROM;
+
+    if (!host || !port || !user || !pass || !from) {
+      throw new Error('As credenciais de e-mail não foram configuradas.');
+    }
+
+    const transporter = nodemailer.createTransport({
+      host,
+      port,
+      secure: port === 465,
+      auth: { user, pass },
+    });
+
+    await transporter.sendMail({
+      from,
+      to: email,
+      subject: `${title} — EduLivre`,
+      text: `Olá, ${name}!\n\n${message}\n\nEquipe EduLivre`,
+      html: `
+        <h1>${title}</h1>
+        <p>Olá, ${name}!</p>
+        <p>${message}</p>
+        <p>Equipe <strong>EduLivre</strong></p>
       `,
     });
   }
