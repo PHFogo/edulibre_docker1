@@ -50,4 +50,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: docker compose config
+      - name: Create environment for Compose validation
+        run: |
+          cat > .env <<'EOF'
+          MYSQL_ROOT_PASSWORD=ci-root-password
+          MYSQL_DATABASE=edulivre
+          MYSQL_USER=app
+          MYSQL_PASSWORD=ci-app-password
+          DB_HOST=database
+          DB_NAME=edulivre
+          DB_USER=app
+          DB_PASS=ci-app-password
+          MEDIA_INTERNAL_API_KEY=ci-internal-media-key
+          EOF
+      - run: docker compose config --quiet
