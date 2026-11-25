@@ -4,6 +4,7 @@ import CacheService from '../services/cache.service';
 import PaymentClientService from '../services/payment-client.service';
 import Aula from '../models/Aula';
 import User from '../models/User';
+import { Op } from 'sequelize';
 
 jest.mock('../services/cache.service', () => ({
   __esModule: true,
@@ -21,6 +22,7 @@ jest.mock('../services/payment-client.service', () => ({
 
 describe('Invalidação do cache de agendamentos', () => {
   let agendamento: Agendamento;
+  const futureDate = () => new Date(Date.now() + 24 * 60 * 60 * 1000);
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -29,7 +31,7 @@ describe('Invalidação do cache de agendamentos', () => {
       id: 1,
       alunoId: 10,
       aulaId: 2,
-      data: new Date('2026-11-20T14:00:00Z'),
+      data: futureDate(),
       bookingStatus: 'aceito',
       paymentStatus: 'pendente',
     });
@@ -97,6 +99,33 @@ describe('Invalidação do cache de agendamentos', () => {
     expect(update).not.toHaveBeenCalled();
     expect(CacheService.invalidate).not.toHaveBeenCalled();
   });
+
+  test('não lista agendamentos em datas passadas', async () => {
+    const findAndCountAll = jest.spyOn(Agendamento, 'findAndCountAll').mockResolvedValue({
+      count: 0,
+      rows: [],
+    } as never);
+
+    await AgendamentoService.list({});
+
+    expect(findAndCountAll).toHaveBeenCalledWith(expect.objectContaining({
+      where: expect.objectContaining({
+        data: expect.objectContaining({ [Op.gt]: expect.any(Date) }),
+      }),
+    }));
+  });
+
+  test('não permite pagar agendamento em data passada', async () => {
+    agendamento.set('data', new Date('2017-02-01T15:00:00Z'));
+    const update = jest.spyOn(agendamento, 'update').mockResolvedValue(agendamento);
+
+    await expect(
+      AgendamentoService.pay(1, 10, { method: 'pix' }),
+    ).rejects.toMatchObject({ statusCode: 400 });
+
+    expect(PaymentClientService.simulate).not.toHaveBeenCalled();
+    expect(update).not.toHaveBeenCalled();
+  });
   test('invalida depois de excluir o agendamento', async () => {
   const destroy = jest
     .spyOn(agendamento, 'destroy')
@@ -123,10 +152,11 @@ test('não invalida quando a exclusão falha', async () => {
   expect(CacheService.invalidate).not.toHaveBeenCalled();
 });
 describe('criação e alteração', () => {
+  const futureDate = () => new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
   const payload = {
     alunoId: 10,
     aulaId: 2,
-    data: '2026-11-20T14:00:00Z',
+    data: futureDate(),
   };
 
   beforeEach(() => {
@@ -182,6 +212,16 @@ describe('criação e alteração', () => {
       AgendamentoService.create(payload),
     ).rejects.toThrow('Falha ao criar');
 
+    expect(CacheService.invalidate).not.toHaveBeenCalled();
+  });
+  test('rejeita criação de agendamento em data passada', async () => {
+    const create = jest.spyOn(Agendamento, 'create');
+
+    await expect(
+      AgendamentoService.create({ ...payload, data: '2017-02-01T15:00:00Z' }),
+    ).rejects.toMatchObject({ statusCode: 400 });
+
+    expect(create).not.toHaveBeenCalled();
     expect(CacheService.invalidate).not.toHaveBeenCalled();
   });
   test('invalida depois de alterar o agendamento', async () => {

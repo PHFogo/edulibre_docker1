@@ -6,9 +6,10 @@ import Agendamento from '../models/Agendamento';
 import Aula from '../models/Aula';
 import User from '../models/User';
 import Avaliacao from '../models/Avaliacao';
+import { Op } from 'sequelize';
 import HttpError from '../utils/http-error';
 import { buildPage, getPageRequest } from '../utils/pagination';
-import { ensureAdult, validateDate } from '../utils/validators';
+import { ensureAdult, validateFutureDate } from '../utils/validators';
 import CacheService from './cache.service';
 import PaymentClientService, { type PaymentPayload } from './payment-client.service';
 
@@ -111,6 +112,8 @@ export default class AgendamentoService {
       );
     }
 
+    AgendamentoService.ensureUpcoming(agendamento.data);
+
     if (agendamento.bookingStatus !== 'aceito') {
       throw new HttpError(
         400,
@@ -167,6 +170,8 @@ export default class AgendamentoService {
       );
     }
 
+    AgendamentoService.ensureUpcoming(agendamento.data);
+
     if (agendamento.paymentStatus === 'pago' && decision === 'recusado') {
       throw new HttpError(
         400,
@@ -188,6 +193,7 @@ export default class AgendamentoService {
 
   private static buildWhere(filters: AgendamentoFilters) {
     return {
+      data: { [Op.gt]: new Date() },
       ...(filters.alunoId ? { alunoId: Number(filters.alunoId) } : {}),
       ...(filters.aulaId ? { aulaId: Number(filters.aulaId) } : {}),
     };
@@ -197,7 +203,7 @@ export default class AgendamentoService {
     return {
       alunoId: Number(payload.alunoId),
       aulaId: Number(payload.aulaId),
-      data: validateDate(payload.data),
+      data: validateFutureDate(payload.data),
     };
   }
 
@@ -224,5 +230,11 @@ export default class AgendamentoService {
     );
     if (!agendamento) throw new HttpError(404, 'Agendamento nÃ£o encontrado.');
     return agendamento;
+  }
+
+  private static ensureUpcoming(date: Date) {
+    if (new Date(date).getTime() <= Date.now()) {
+      throw new HttpError(400, 'Este agendamento já passou e não pode mais ser alterado.');
+    }
   }
 }
