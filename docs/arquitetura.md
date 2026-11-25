@@ -24,7 +24,6 @@ flowchart TB
   api --> payment[Serviço de pagamentos\nNestJS, simulado]
   api --> smtp[Gmail SMTP\nE-mails]
   api -->|SSE| browser
-  api -->|SSE| mobile
 ```
 
 O diagrama inclui os dois clientes presentes no repositório (`EduLibre_FrontEnd-main` e `EduLibre_Mobile`). A API, os contextos centrais e o MySQL formam o núcleo implantado em conjunto; mídia e pagamentos têm processos Docker próprios.
@@ -82,7 +81,7 @@ O MySQL é a fonte de verdade de usuários, aulas, reservas, avaliações, permi
 ### ADR-002 — Redis para cache e eventos
 
 - **Contexto:** listagem de aulas é frequente e avisos ao vivo não podem depender de polling.
-- **Decisão:** cache com TTL e invalidação no Redis; Redis Pub/Sub para evento de aula criada; SSE autenticado para entregar ao navegador e ao app. Comunicados administrativos usam SSE para usuários online e SMTP para alcançar a base cadastrada.
+- **Decisão:** cache com TTL e invalidação no Redis; Redis Pub/Sub para evento de aula criada; SSE autenticado para entregar ao navegador. Comunicados administrativos usam SSE para usuários online e SMTP para alcançar a base cadastrada.
 - **Consequência:** menor pressão no MySQL e atualização em tempo real. Pub/Sub/SSE não são duráveis; e-mail complementa comunicados para usuários offline e notificações críticas de moderação também são persistidas no MySQL.
 
 ### ADR-003 — Pagamento demonstrável sem processar cartão real
