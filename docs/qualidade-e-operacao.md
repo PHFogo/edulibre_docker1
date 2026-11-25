@@ -70,7 +70,7 @@ O checkout em `DEPLOY_PATH` deve ter `origin` apontando para este repositório, 
 
 O deploy usa estratégia simples de atualização do Compose; não é blue/green e pode haver indisponibilidade durante a reconstrução. Antes de liberar, exigir CI verde e revisar o diff. Após o deploy, validar `/api/health/ready`, login, catálogo e uma ação do fluxo alterado.
 
-Para rollback, no servidor selecionar o commit/tag estável anterior e reconstruir os serviços: `git -C "$DEPLOY_PATH" switch --detach <commit-ou-tag` e `docker compose -f "$DEPLOY_PATH/docker-compose.yml" -p proj up -d --build`. Para retornar ao fluxo normal de release, voltar à branch `main` e atualizar o clone. Registrar a versão, horário, impacto e resultado da validação.
+Para rollback, no servidor selecionar o commit/tag estável anterior e reconstruir os serviços: `git -C "$DEPLOY_PATH" switch --detach COMMIT_OU_TAG` e `docker compose -f "$DEPLOY_PATH/docker-compose.yml" -p proj up -d --build`. Substitua `COMMIT_OU_TAG` pela referência estável. Para retornar ao fluxo normal de release, voltar à branch `main` e atualizar o clone. Registrar a versão, horário, impacto e resultado da validação.
 
 ### Playbook resumido de incidente
 
