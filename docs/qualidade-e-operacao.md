@@ -8,6 +8,7 @@
 | Tempo de resposta do catálogo | latência de `GET /aulas` | p95 abaixo de 1 s com cache aquecido |
 | Recuperação de pagamento | tentativas e disponibilidade do serviço | falha tratada em até 5 s por tentativa |
 | Entrega de alerta online | conexão SSE ativa + evento entregue | menos de 5 s para usuários conectados |
+| Comunicado operacional | envio SMTP concluído/total de destinatários | resultado informado ao administrador |
 
 ## Resiliência aplicada
 

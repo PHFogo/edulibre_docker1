@@ -56,7 +56,12 @@ function AdminDashboardPage() {
       setAnnouncementFeedback('');
       setAnnouncementLoading(templateKey);
       const announcement = await publishAnnouncement(templateKey);
-      setAnnouncementFeedback(`Comunicado “${announcement.title}” enviado aos usuários conectados.`);
+      const emailStatus = announcement.emailFailureCount
+        ? `${announcement.emailedCount} de ${announcement.recipientCount} e-mails enviados.`
+        : `${announcement.emailedCount} e-mail(s) enviado(s).`;
+      setAnnouncementFeedback(
+        `Comunicado “${announcement.title}” transmitido em tempo real. ${emailStatus}`,
+      );
     } catch (requestError) {
       setAnnouncementError(getErrorMessage(requestError));
     } finally {
@@ -103,7 +108,7 @@ function AdminDashboardPage() {
         <p className="eyebrow">Mensageria em tempo real</p>
         <h2>Comunicados rápidos</h2>
         <p className="muted">
-          Dispare um aviso pré-configurado para todos os usuários conectados agora.
+          Dispare um aviso em tempo real e por e-mail para todos os usuários cadastrados.
         </p>
         <div className="announcement-grid">
           {QUICK_ANNOUNCEMENTS.map((announcement) => (

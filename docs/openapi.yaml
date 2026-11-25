@@ -121,7 +121,7 @@ paths:
       responses: { '200': { description: Stream text/event-stream } }
   /admin/comunicados:
     post:
-      summary: Envia comunicado pré-configurado aos usuários conectados
+      summary: Envia comunicado pré-configurado em tempo real e por e-mail aos usuários cadastrados
       requestBody:
         required: true
         content:

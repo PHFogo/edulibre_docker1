@@ -36,7 +36,7 @@ O núcleo é um **monólito modular**: API, regras de negócio e persistência c
 | Identidade e acesso | Cadastro, login, RBAC, recuperação de senha | `User`, `Role`, `Permission`, OTP de seis dígitos |
 | Catálogo de aulas | Criação, imagens, busca, moderação e avaliações | `Aula`, `Avaliacao`, valor monetário |
 | Agendamentos | Solicitação, aceite, recusa e pagamento | `Agendamento`, estado de reserva, estado de pagamento |
-| Comunicação | Alertas persistentes e eventos ao vivo | `Notificacao`, Redis Pub/Sub e SSE |
+| Comunicação | Alertas persistentes, comunicados ao vivo e e-mail | `Notificacao`, Redis Pub/Sub, SSE e SMTP |
 | Mídia | Validação e conversão de imagens para WebP | Arquivo enviado, MIME type, tamanho |
 | Pagamentos | Aprovação/recusa simulada e identificador de transação | `transactionId`, método Pix/cartão, valor |
 
@@ -65,8 +65,8 @@ O contrato dos endpoints principais está em [openapi.yaml](openapi.yaml). A API
 ### ADR-002 — Redis para cache e eventos
 
 - **Contexto:** listagem de aulas é frequente e avisos ao vivo não podem depender de polling.
-- **Decisão:** cache com TTL e invalidação no Redis; Redis Pub/Sub para evento de aula criada; SSE autenticado para entregar ao navegador.
-- **Consequência:** menor pressão no MySQL e atualização em tempo real. Mensagens Pub/Sub não são duráveis, portanto notificações críticas de moderação também são persistidas no MySQL.
+- **Decisão:** cache com TTL e invalidação no Redis; Redis Pub/Sub para evento de aula criada; SSE autenticado para entregar ao navegador. Comunicados administrativos usam SSE para usuários online e SMTP para alcançar toda a base cadastrada.
+- **Consequência:** menor pressão no MySQL e atualização em tempo real. Mensagens Pub/Sub/SSE não são duráveis; por isso o e-mail complementa os comunicados operacionais para usuários offline e notificações críticas de moderação também são persistidas no MySQL.
 
 ### ADR-003 — Pagamento demonstrável sem processar cartão real
 
