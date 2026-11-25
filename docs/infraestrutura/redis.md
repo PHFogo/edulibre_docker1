@@ -1,8 +1,8 @@
-# Redis no EduLibre
+# Redis no EduLivre
 
-O Redis armazena o cache das listagens e dos destaques de aulas do EduLibre. O MySQL continua sendo a fonte dos dados. Esta entrega corresponde à tarefa [EDLIBRE-7](https://edulibre2.atlassian.net/browse/EDLIBRE-7), integrada pelo [PR #3](https://github.com/thaila-ops/edulibre_docker/pull/3), com o commit de implementação `617a66c`.
+O Redis armazena o cache das listagens e dos destaques de aulas do EduLivre. O MySQL continua sendo a fonte dos dados. Esta entrega corresponde à tarefa [EDLIBRE-7](https://edulibre2.atlassian.net/browse/EDLIBRE-7), integrada pelo [PR #3](https://github.com/thaila-ops/edulibre_docker/pull/3), com o commit de implementação `617a66c`.
 
-Esta documentação registra a implementação e as verificações realizadas em novembro de 2026. Redis Pub/Sub ainda não foi implementado e pertence a uma entrega posterior.
+Esta documentação registra a implementação e as verificações realizadas em novembro de 2026. O Redis Pub/Sub foi implementado em uma entrega posterior; seu fluxo e suas limitações estão descritos em [Eventos com Redis Pub/Sub](redis-pubsub.md).
 
 ## Funcionamento do cache
 
@@ -175,7 +175,7 @@ Os testes de TTL verificam as opções enviadas ao Redis, não a passagem real d
 - O namespace é global: uma alteração invalida logicamente todas as listagens e os destaques de aulas, mesmo quando afeta apenas uma aula.
 - A resposta inclui dados relacionados de professores e alunos das avaliações. Alterações de perfil no serviço de usuários ainda não invalidam esse cache; essas informações podem ficar antigas até o TTL.
 - Os logs atuais permitem acompanhar o fluxo, mas não constituem métricas de disponibilidade ou latência, dashboards ou alertas.
-- Não há implementação de Pub/Sub nesta entrega.
+- O Pub/Sub é um fluxo independente do cache, efêmero e sem fila durável; seus detalhes e limitações estão descritos em [Eventos com Redis Pub/Sub](redis-pubsub.md).
 
 ## Consultar logs
 
